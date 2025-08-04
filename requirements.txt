@@ -1,7 +1,5 @@
---only-binary=all
-
 fastapi>=0.68.0
-uvicorn[standard]>=0.15.0
+uvicorn>=0.15.0
 pandas>=2.0.0
 numpy>=1.26.5
 scikit-learn>=1.0
@@ -13,3 +11,5 @@ dowhy>=0.8
 fairlearn>=0.10.0
 lightgbm>=4.0.0
 xgboost>=2.0.0
+router
+google-generativeai

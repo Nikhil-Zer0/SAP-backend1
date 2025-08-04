@@ -2,12 +2,19 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+<<<<<<< Updated upstream
 from audit_routes import audit_router
 from mitigation_routes import mitigation_router
 
 # =============================
 # Initialize App
 # =============================
+=======
+# Import your core audit logic
+from fairlens_core import run_bias_audit
+from llm import router as gemini_router  # 👈 Import Gemini router
+
+>>>>>>> Stashed changes
 app = FastAPI(
     title="FairLens API",
     description="An AI Bias Auditor & Mitigator for ethical AI in hiring and lending",
@@ -16,9 +23,22 @@ app = FastAPI(
     redoc_url="/redoc"
 )
 
+<<<<<<< Updated upstream
 # =============================
 # Add CORS Middleware
 # =============================
+=======
+# Register Gemini router
+app.include_router(gemini_router)
+# Initialize app
+
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+# Enable CORS (allow frontend to call API)
+>>>>>>> Stashed changes
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # Update in production
