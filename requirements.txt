@@ -10,3 +10,6 @@ python-multipart>=0.0.6
 networkx==2.8.8
 pydot==1.4.2
 dowhy>=0.8
+fairlearn>=0.10.0
+lightgbm>=4.0.0
+xgboost>=2.0.0

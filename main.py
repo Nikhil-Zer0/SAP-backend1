@@ -8,6 +8,8 @@ import logging
 
 # Import your core audit logic
 from fairlens_core import run_bias_audit
+# Import your bias mitigation logic
+from bias_mitigation import mitigate_bias
 
 # Initialize app
 app = FastAPI(
@@ -83,3 +85,45 @@ async def audit_bias(
     except Exception as e:
         logger.exception("Unexpected error during audit")
         raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
+    
+# =========================
+# New Endpoint: /mitigate-bias
+# =========================
+@app.post("/mitigate-bias")
+async def mitigate_bias_endpoint(
+    file: UploadFile = File(...),
+    sensitive_attribute: str = "gender",
+    outcome: str = "loan_status",
+    method: str = "threshold"  # or "exponentiated_gradient"
+):
+    """
+    Upload a dataset and apply bias mitigation.
+    Returns fairness metrics before and after.
+    """
+    if not file.filename.endswith(".csv"):
+        raise HTTPException(status_code=400, detail="Only CSV files are supported.")
+
+    try:
+        content = await file.read()
+        df = pd.read_csv(io.StringIO(content.decode("utf-8")))
+        logger.info(f"Mitigation: Received {file.filename}, shape: {df.shape}")
+
+        result = mitigate_bias(
+            df=df,
+            sensitive_attribute=sensitive_attribute,
+            outcome=outcome,
+            method=method
+        )
+
+        if result.get("status") == "error":
+            raise HTTPException(status_code=500, detail=result["message"])
+
+        return JSONResponse(content=result)
+
+    except Exception as e:
+        logger.exception("Mitigation failed")
+        raise HTTPException(status_code=500, detail=f"Mitigation failed: {str(e)}")
+    
+@app.get("/health")
+def health():
+    return {"status": "ok", "modules": ["fairlens_core", "bias_mitigator"]}
