@@ -1,0 +1,20 @@
+# Virtual Environment
+venv/
+__pycache__/
+*.pyc
+
+# FastAPI
+*.log
+*.tmp
+
+# OS & Editors
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Dependency directories
+__pycache__/
+*.egg-info/
+
+.env

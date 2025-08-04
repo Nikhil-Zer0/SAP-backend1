@@ -1,0 +1,12 @@
+--only-binary=all
+
+fastapi>=0.68.0
+uvicorn[standard]>=0.15.0
+pandas>=2.0.0
+numpy>=1.26.5
+scikit-learn>=1.0
+shap>=0.40.0
+python-multipart>=0.0.6
+networkx==2.8.8
+pydot==1.4.2
+dowhy>=0.8
